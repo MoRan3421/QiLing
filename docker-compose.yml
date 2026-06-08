@@ -1,0 +1,18 @@
+version: '3.8'
+services:
+  qiling:
+    build: .
+    container_name: qiling-ai
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - QILING_ADMIN_SECRET=${QILING_ADMIN_SECRET:-admin123}
+      - QILING_DATA_DIR=/app/data
+      - CLIENT_URL=http://localhost:5173
+    volumes:
+      - qiling-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  qiling-data:

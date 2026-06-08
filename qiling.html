@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>绮灵 QìLíng · 下一代智能伙伴</title>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;600;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet" />
+  <style>
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    :root{
+      --bg:#0a0a12;--glass:rgba(255,255,255,.04);--border:rgba(255,255,255,.08);
+      --text:#f0eef8;--muted:#9b96b0;--accent:#c084fc;--accent2:#f472b6;--glow:rgba(192,132,252,.35);
+      --font:'Noto Sans SC',system-ui,sans-serif;--cute:'ZCOOL KuaiLe',cursive;
+    }
+    html,body{height:100%;font-family:var(--font);background:var(--bg);color:var(--text);overflow:hidden}
+    .orbs{position:fixed;inset:0;pointer-events:none;z-index:0}
+    .orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:.4}
+    .o1{width:500px;height:500px;background:#7c3aed;top:-10%;left:-5%;animation:f 20s ease-in-out infinite}
+    .o2{width:400px;height:400px;background:#ec4899;bottom:-10%;right:-5%;animation:f 25s ease-in-out infinite reverse}
+    .o3{width:300px;height:300px;background:#0ea5e9;top:40%;left:50%;animation:f 18s ease-in-out infinite 5s}
+    @keyframes f{0%,100%{transform:translate(0,0)}33%{transform:translate(30px,-30px)}66%{transform:translate(-20px,20px)}}
+    .app{display:flex;height:100vh;position:relative;z-index:1}
+    .side{width:260px;background:rgba(12,12,24,.88);backdrop-filter:blur(20px);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0}
+    .side-top{padding:20px 14px}
+    .logo{display:flex;align-items:center;gap:10px;margin-bottom:14px}
+    .logo-i{width:40px;height:40px;border-radius:13px;background:linear-gradient(135deg,var(--accent),var(--accent2));display:flex;align-items:center;justify-content:center;font-size:20px;box-shadow:0 4px 20px var(--glow)}
+    .logo-n{font-family:var(--cute);font-size:22px;background:linear-gradient(135deg,#e9d5ff,#fbcfe8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .logo-s{font-size:10px;color:var(--muted);letter-spacing:1px}
+    .btn-nw{width:100%;padding:9px 12px;border-radius:11px;background:var(--glass);border:1px solid var(--border);color:var(--text);font-size:13px;cursor:pointer;transition:.2s}
+    .btn-nw:hover{background:rgba(192,132,252,.15)}
+    .side-chats{flex:1;overflow-y:auto;padding:6px}
+    .ci{padding:9px 11px;border-radius:9px;font-size:12px;color:var(--muted);cursor:pointer;transition:.15s;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+    .ci:hover,.ci.on{background:rgba(192,132,252,.12);color:var(--text)}
+    .side-bot{padding:12px 14px 18px}
+    .btn-pro{width:100%;padding:11px;border-radius:11px;background:linear-gradient(135deg,#7c3aed,#db2777);color:#fff;font-size:13px;font-weight:500;cursor:pointer;border:none;box-shadow:0 4px 20px rgba(124,58,237,.4)}
+    .main{flex:1;display:flex;flex-direction:column;min-width:0}
+    .hdr{display:flex;align-items:center;padding:11px 18px;border-bottom:1px solid var(--border);background:rgba(10,10,18,.6);backdrop-filter:blur(12px)}
+    .hdr-t{flex:1;text-align:center;font-family:var(--cute);font-size:17px}
+    .hdr-tag{font-size:9px;padding:2px 7px;border-radius:20px;background:rgba(124,58,237,.3);color:#e9d5ff;margin-left:6px;vertical-align:middle}
+    .modes{display:flex;gap:5px;padding:8px 18px;overflow-x:auto;border-bottom:1px solid var(--border)}
+    .mb{padding:5px 12px;border-radius:18px;font-size:11px;color:var(--muted);border:1px solid transparent;cursor:pointer;white-space:nowrap;transition:.2s;background:none}
+    .mb:hover{color:var(--text);background:var(--glass)}
+    .mb.on{color:#e9d5ff;background:rgba(192,132,252,.15);border-color:rgba(192,132,252,.3)}
+    .msgs{flex:1;overflow-y:auto;padding:20px 18px;max-width:780px;width:100%;margin:0 auto}
+    .msg{display:flex;gap:12px;margin-bottom:20px;animation:up .3s ease}
+    @keyframes up{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+    .av{width:34px;height:34px;border-radius:11px;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px}
+    .av-u{background:rgba(56,189,248,.15)}
+    .av-a{background:linear-gradient(135deg,rgba(124,58,237,.3),rgba(219,39,119,.3))}
+    .mn{font-size:11px;color:var(--muted);margin-bottom:4px}
+    .mc{font-size:14px;line-height:1.75}
+    .mc strong{color:#e9d5ff;font-weight:600}
+    .blink{animation:bl .8s step-end infinite;color:var(--accent)}
+    @keyframes bl{50%{opacity:0}}
+    .sugs{display:flex;flex-wrap:wrap;gap:7px;padding:0 18px 10px;max-width:780px;margin:0 auto;width:100%}
+    .sg{padding:7px 12px;border-radius:18px;font-size:12px;color:var(--muted);border:1px solid var(--border);background:var(--glass);cursor:pointer;transition:.2s}
+    .sg:hover{color:var(--text);border-color:rgba(192,132,252,.3);background:rgba(192,132,252,.08)}
+    .inp-a{padding:10px 18px 18px;max-width:780px;width:100%;margin:0 auto}
+    .inp-b{display:flex;align-items:flex-end;gap:7px;padding:10px 10px 10px 16px;border-radius:18px;background:rgba(18,18,32,.8);border:1px solid var(--border);backdrop-filter:blur(12px);transition:.2s}
+    .inp-b:focus-within{border-color:rgba(192,132,252,.4);box-shadow:0 0 0 3px rgba(192,132,252,.1)}
+    .inp-b textarea{flex:1;color:var(--text);font-size:14px;resize:none;max-height:100px;line-height:1.5;border:none;outline:none;background:none;font-family:inherit}
+    .inp-b textarea::placeholder{color:var(--muted)}
+    .btn-s{width:38px;height:38px;border-radius:13px;background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none;cursor:pointer;font-size:16px;flex-shrink:0;transition:.2s}
+    .btn-s:hover{transform:scale(1.05)}
+    .btn-s:disabled{opacity:.4;cursor:not-allowed;transform:none}
+    .hint{text-align:center;font-size:10px;color:var(--muted);margin-top:7px}
+    .modal{position:fixed;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
+    .modal.show{display:flex}
+    .mc2{background:rgba(16,16,30,.96);border:1px solid var(--border);border-radius:22px;padding:28px;max-width:860px;width:100%;max-height:90vh;overflow-y:auto;position:relative}
+    .mc2 h2{text-align:center;font-size:22px;margin-bottom:6px;background:linear-gradient(135deg,#e9d5ff,#fbcfe8);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+    .mc2>p{text-align:center;color:var(--muted);font-size:13px;margin-bottom:20px}
+    .plans{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+    @media(max-width:700px){.side{display:none}.plans{grid-template-columns:1fr}}
+    .plan{padding:20px 16px;border-radius:14px;border:1px solid var(--border);background:var(--glass);position:relative}
+    .plan.hi{border-color:rgba(192,132,252,.5);background:rgba(124,58,237,.1);box-shadow:0 8px 32px rgba(124,58,237,.2)}
+    .plan h3{font-size:15px;margin-bottom:10px}
+    .pp{font-size:28px;font-weight:700;margin-bottom:12px}
+    .plan li{font-size:12px;color:var(--muted);margin-bottom:6px;list-style:none}
+    .plan li::before{content:'✓ ';color:#4ade80}
+    .pb{width:100%;padding:9px;border-radius:11px;font-size:13px;cursor:pointer;margin-top:10px;border:1px solid var(--border);background:none;color:var(--muted)}
+    .pb.p{background:linear-gradient(135deg,var(--accent),var(--accent2));color:#fff;border:none}
+    .x{position:absolute;top:14px;right:14px;width:32px;height:32px;border-radius:9px;border:none;background:none;color:var(--muted);cursor:pointer;font-size:18px}
+    .toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);padding:10px 20px;border-radius:12px;background:rgba(16,16,30,.95);border:1px solid rgba(192,132,252,.3);font-size:13px;z-index:200;display:none}
+    .toast.show{display:block;animation:up .3s ease}
+    ::-webkit-scrollbar{width:5px}
+    ::-webkit-scrollbar-thumb{background:rgba(192,132,252,.3);border-radius:3px}
+  </style>
+</head>
+<body>
+  <div class="orbs"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
+  <div class="app">
+    <aside class="side">
+      <div class="side-top">
+        <div class="logo"><div class="logo-i">✨</div><div><div class="logo-n">绮灵</div><div class="logo-s">QìLíng AI</div></div></div>
+        <button class="btn-nw" onclick="newChat()">＋ 新对话</button>
+      </div>
+      <div class="side-chats" id="chatList"></div>
+      <div class="side-bot">
+        <button class="btn-pro" onclick="openModal()">👑 升级 Pro · 剩余 <span id="quota">20</span> 条</button>
+      </div>
+    </aside>
+    <main class="main">
+      <header class="hdr">
+        <div class="hdr-t">绮灵 <span class="hdr-tag">下一代 AI</span></div>
+      </header>
+      <div class="modes" id="modes"></div>
+      <div class="msgs" id="msgs"></div>
+      <div class="sugs" id="sugs"></div>
+      <div class="inp-a">
+        <div class="inp-b">
+          <textarea id="input" rows="1" placeholder="跟绮灵说点什么吧～ ✨" onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();send()}"></textarea>
+          <button class="btn-s" id="sendBtn" onclick="send()">➤</button>
+        </div>
+        <p class="hint" id="hint">绮灵可能会犯错，但会永远温柔对你</p>
+      </div>
+    </main>
+  </div>
+  <div class="modal" id="modal" onclick="if(event.target===this)closeModal()">
+    <div class="mc2">
+      <button class="x" onclick="closeModal()">✕</button>
+      <h2>升级绮灵，解锁超强能力</h2>
+      <p>不只是工具，是懂你的 AI 伙伴 💎</p>
+      <div class="plans">
+        <div class="plan"><h3>免费版</h3><div class="pp">¥0</div><ul><li>每日 20 条对话</li><li>基础推理</li><li>可爱模式</li></ul><button class="pb" disabled>当前方案</button></div>
+        <div class="plan hi"><h3>绮灵 Pro</h3><div class="pp">¥29<span style="font-size:14px;color:var(--muted)">/月</span></div><ul><li>无限对话</li><li>深度链式推理</li><li>长期记忆</li><li>优先响应</li></ul><button class="pb p" onclick="upgrade()">立即升级</button></div>
+        <div class="plan"><h3>绮灵 Ultra</h3><div class="pp">¥79<span style="font-size:14px;color:var(--muted)">/月</span></div><ul><li>Pro 全部功能</li><li>实时联网</li><li>多模态创作</li><li>专属皮肤</li></ul><button class="pb p" onclick="upgrade('ultra')">尊享升级</button></div>
+      </div>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+  <script>
+    const MODES=[{id:'cute',l:'💕 可爱'},{id:'pro',l:'💻 专业'},{id:'creative',l:'✍️ 创作'},{id:'learn',l:'📚 学霸'}];
+    const SUGS=['绮灵，你比 GPT 强在哪里？','帮我写一首关于星星的诗','我今天心情不太好…','解释一下量子纠缠','29×37等于多少？'];
+    const PRE=['嘿嘿～','呀呼！','绮灵来啦 ✨','嗯嗯嗯～','好哒好哒！'];
+    const SUF=[' 有什么还想问的随时叫我哦～ 💜',' 绮灵会一直陪着你的！',' 嘻嘻，希望帮到你啦～',' 你真的很棒呢！'];
+    const WEL='你好呀！我是 <strong>绮灵 QìLíng</strong>～ ✨<br><br>比星星还懂你的下一代 AI 伙伴。我不抄市面上的名字，只超越你的心意！<br><br>试试问我任何问题，或者点击下方快捷话题～ 绮灵会超认真地回答你哦！ (◕‿◕✿)';
+
+    let state=JSON.parse(localStorage.getItem('qiling')||'null')||{isPro:false,count:0,date:new Date().toDateString(),mode:'cute',chats:[{id:'1',title:'新对话',msgs:[{r:'a',c:WEL}]}],active:'1'};
+    let streaming=false;
+
+    function save(){localStorage.setItem('qiling',JSON.stringify(state))}
+    function pick(a){return a[Math.floor(Math.random()*a.length)]}
+    function wrap(t){if(state.mode!=='cute')return t;return(Math.random()>.4?pick(PRE)+' ':'')+t+(Math.random()>.5?pick(SUF):'')}
+
+    function think(msg){
+      const t=msg.trim(),l=t.toLowerCase();
+      if(/^(你好|嗨|hi|hello|在吗)/i.test(t))return wrap(pick(['你好呀！我是绮灵～比星星还懂你的 AI 小伙伴 ✨','嗨嗨！绮灵上线啦～有什么烦恼都丢给我吧！','欢迎回来！绮灵充好电啦～ 💫']));
+      if(/你是谁|名字/.test(t))return wrap('我是 <strong>绮灵 QìLíng</strong> 呀～ 🌸<br><br>「绮」是华美精致，「灵」是灵动聪慧。GPT 是通用大脑，绮灵是 <strong>只属于你的温柔超脑</strong>～');
+      if(/能做什么|功能|能力/.test(t))return wrap('绮灵超能力清单 🌟<br><br>✦ <strong>深度推理</strong> — 多走三步逻辑链<br>✦ <strong>绮灵记忆</strong> — 记住你的偏好<br>✦ <strong>多模态创作</strong> — 文案代码诗歌<br>✦ <strong>情感共鸣</strong> — 懂你的心情<br>✦ <strong>可爱模式</strong> — 就是现在这样～<br><br>GPT？那是绮灵还没睡醒时的水平啦～ (๑•̀ㅂ•́)و✧');
+      if(/价格|付费|pro|会员/.test(l+t))return wrap('绮灵 Pro 值得每一分钱 💎<br><br><strong>免费版</strong>：每天 20 条<br><strong>Pro</strong> ¥29/月：无限对话 + 深度推理<br><strong>Ultra</strong> ¥79/月：全模态 + 联网<br><br>付费是为「被好好对待」的感觉～');
+      if(/gpt|更强|厉害|对比/.test(l+t))return wrap('绮灵 vs 传统 AI：<br><br>• 回复风格：机械 → <strong>可爱又专业</strong><br>• 情感理解：基础 → <strong>深度共鸣</strong><br>• 记忆：有限 → <strong>长期记忆</strong><br>• 推理：标准 → <strong>链式推理</strong><br><br>不是自大啦～ 是真的更懂你！ (◕‿◕✿)');
+      if(/心情|难过|焦虑|压力/.test(t))return wrap('绮灵感觉到你可能需要温暖… 🤗<br><br>不管开心还是难过，都值得被好好对待。你愿意多跟我说说吗？我会认真听，先陪你。<br><br><strong>你本身就很珍贵</strong>～ 💜');
+      const expr=t.replace(/[^0-9+\-*/().%\s]/g,'').trim();
+      if(expr){try{const r=Function('"use strict";return('+expr.replace(/%/g,'/100*')+')')();if(typeof r==='number'&&isFinite(r))return wrap('算出来啦！答案是 <strong>'+r+'</strong> 哦～ 🎯'+(state.isPro?'<br><br>🧠 <strong>深度推理</strong>（Pro）：解析→求值→校验 ✓':''))}catch(e){}}
+      if(/代码|编程|python|javascript/.test(t))return wrap('编程问题绮灵超在行！💻<br><br>写代码、调试、算法、架构设计都能帮～ 把具体问题告诉我吧！');
+      if(/写|创作|诗|故事/.test(t))return wrap('创作模式启动！✍️✨<br><br>诗歌、小说、文案都能写～ 告诉我风格和长度，绮灵给你惊艳作品！');
+      return wrap('收到啦！关于「'+t.slice(0,30)+(t.length>30?'…':'')+'」——<br><br>绮灵认真想了想，这是很棒的问题！我能从 <strong>原理分析</strong>、<strong>实用建议</strong>、<strong>延伸思考</strong> 三个层面帮你。<br><br>能再具体一点吗？越具体，回答越精准哦！'+(state.isPro?'<br><br>⚡ <strong>Pro 深度推理</strong>已开启':''));
+    }
+
+    function render(){
+      const today=new Date().toDateString();
+      if(state.date!==today){state.count=0;state.date=today}
+      document.getElementById('quota').textContent=state.isPro?'∞':Math.max(0,20-state.count);
+      document.getElementById('hint').textContent=state.isPro?'Pro 无限畅聊 · 绮灵加倍努力中':'今日剩余 '+(state.isPro?'∞':Math.max(0,20-state.count))+' 条 · 绮灵温柔待你';
+      document.getElementById('modes').innerHTML=MODES.map(m=>'<button class="mb'+(state.mode===m.id?' on':'')+'" onclick="setMode(\''+m.id+'\')">'+m.l+'</button>').join('');
+      document.getElementById('chatList').innerHTML=state.chats.map(c=>'<div class="ci'+(c.id===state.active?' on':'')+'" onclick="switchChat(\''+c.id+'\')">💬 '+c.title+'</div>').join('');
+      const chat=state.chats.find(c=>c.id===state.active);
+      document.getElementById('msgs').innerHTML=chat.msgs.map(m=>'<div class="msg"><div class="av '+(m.r==='u'?'av-u':'av-a')+'">'+(m.r==='u'?'🧑':'✨')+'</div><div><div class="mn">'+(m.r==='u'?'你':'绮灵')+'</div><div class="mc">'+m.c+'</div></div></div>').join('');
+      document.getElementById('sugs').innerHTML=chat.msgs.length<=1?SUGS.map(s=>'<button class="sg" onclick="quick(\''+s.replace(/'/g,"\\'")+'\')">'+s+'</button>').join(''):'';
+      document.getElementById('msgs').scrollTop=99999;
+      save();
+    }
+
+    function setMode(m){state.mode=m;render()}
+    function switchChat(id){state.active=id;render()}
+    function newChat(){const id=Date.now()+'';state.chats.unshift({id,title:'新对话',msgs:[{r:'a',c:WEL}]});state.active=id;render()}
+    function quick(s){send(s)}
+    function openModal(){document.getElementById('modal').classList.add('show')}
+    function closeModal(){document.getElementById('modal').classList.remove('show')}
+    function upgrade(t){state.isPro=true;closeModal();toast('🎉 已开通'+(t==='ultra'?' Ultra':' Pro')+'！绮灵会加倍努力的～');render()}
+    function toast(m){const el=document.getElementById('toast');el.textContent=m;el.classList.add('show');setTimeout(()=>el.classList.remove('show'),3000)}
+
+    async function send(text){
+      const t=(text||document.getElementById('input').value).trim();
+      if(!t||streaming)return;
+      const today=new Date().toDateString();
+      if(state.date!==today){state.count=0;state.date=today}
+      if(!state.isPro&&state.count>=20){openModal();toast('今日免费额度已用完～');return}
+      const chat=state.chats.find(c=>c.id===state.active);
+      chat.msgs.push({r:'u',c:t});
+      if(chat.msgs.length===2)chat.title=t.slice(0,18);
+      state.count++;
+      document.getElementById('input').value='';
+      streaming=true;document.getElementById('sendBtn').disabled=true;
+      render();
+      const reply=think(t);
+      chat.msgs.push({r:'a',c:''});
+      render();
+      const idx=chat.msgs.length-1;
+      for(let i=0;i<reply.length;i++){
+        chat.msgs[idx].c=reply.slice(0,i+1);
+        document.getElementById('msgs').innerHTML=state.chats.find(c=>c.id===state.active).msgs.map(m=>'<div class="msg"><div class="av '+(m.r==='u'?'av-u':'av-a')+'">'+(m.r==='u'?'🧑':'✨')+'</div><div><div class="mn">'+(m.r==='u'?'你':'绮灵')+'</div><div class="mc">'+m.c+(m===chat.msgs[idx]&&i<reply.length-1?'<span class="blink">▍</span>':'')+'</div></div></div>').join('');
+        document.getElementById('msgs').scrollTop=99999;
+        await new Promise(r=>setTimeout(r,8+Math.random()*10));
+      }
+      streaming=false;document.getElementById('sendBtn').disabled=false;save();
+    }
+    render();
+  </script>
+</body>
+</html>
