@@ -8,4 +8,5 @@ server/data/
 models/
 *.gguf
 .DS_Store
-Thumbs.db
+Thumbs.dbdata/  
+.vscode/  
