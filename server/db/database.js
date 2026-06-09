@@ -161,7 +161,7 @@ export async function getDatabase(config) {
     dbInstance = new Database(config)
     await dbInstance.initialize()
   }
-  return dbInstance
+  return dbInstance.getDb()
 }
 
 export default Database

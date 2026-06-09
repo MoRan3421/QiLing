@@ -1,0 +1,69 @@
+{
+  "apiKeys": [
+    {
+      "id": "admin-001",
+      "key": "QL-f1e55c5cf6925a28b6cd0ffdb2f6e439",
+      "prefix": "QL-f1e55c5cf",
+      "tier": "admin",
+      "label": "管理员",
+      "created": 1781022178187,
+      "dailyCount": 0,
+      "permanent": true,
+      "active": true
+    },
+    {
+      "id": "key-1781022956568-817g",
+      "key": "QL-0ea02940773000ee7f68d9ea930a26fe59ac6c2163fc0807",
+      "prefix": "QL-0ea029407",
+      "tier": "free",
+      "label": "test",
+      "created": 1781022956568,
+      "dailyCount": 1,
+      "permanent": false,
+      "active": true
+    }
+  ],
+  "users": [],
+  "rateLimits": {},
+  "usageLogs": [],
+  "config": {
+    "tiers": {
+      "free": {
+        "ratePerSec": 1,
+        "ratePerMin": 10,
+        "dailyLimit": 20,
+        "price": 0
+      },
+      "pro": {
+        "ratePerSec": 5,
+        "ratePerMin": 60,
+        "dailyLimit": 500,
+        "price": 29,
+        "permanent": true
+      },
+      "ultra": {
+        "ratePerSec": 10,
+        "ratePerMin": 120,
+        "dailyLimit": 2000,
+        "price": 79,
+        "permanent": true
+      },
+      "enterprise": {
+        "ratePerSec": 50,
+        "ratePerMin": 500,
+        "dailyLimit": 10000,
+        "price": 299,
+        "permanent": true
+      },
+      "admin": {
+        "ratePerSec": 1000,
+        "ratePerMin": 60000,
+        "dailyLimit": 999999,
+        "price": 0,
+        "permanent": true
+      }
+    },
+    "version": "3.0.0",
+    "updatedAt": 1781022178187
+  }
+}
