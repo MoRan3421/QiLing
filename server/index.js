@@ -11,32 +11,44 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url))
 const PORT = process.env.PORT || 3001
 const VERSION = '3.0.0'
 
-const app = express()
-const corsOrigins = (process.env.CLIENT_URL || 'http://localhost:5173').split(',').map(s => s.trim())
+// 创建 Express 应用
+export function createApp() {
+  const app = express()
+  const corsOrigins = (process.env.CLIENT_URL || 'http://localhost:5173').split(',').map(s => s.trim())
 
-app.use(cors({ origin: corsOrigins, credentials: true }))
-app.use(express.json({ limit: '5mb' }))
+  app.use(cors({ origin: corsOrigins, credentials: true }))
+  app.use(express.json({ limit: '5mb' }))
 
-const config = {
-  dataDir: process.env.QILING_DATA_DIR || path.join(__dirname, 'data'),
-  modelPath: process.env.QILING_MODEL_PATH || path.join(__dirname, 'models', 'qiling-model.gguf')
+  const config = {
+    dataDir: process.env.QILING_DATA_DIR || path.join(__dirname, 'data'),
+    modelPath: process.env.QILING_MODEL_PATH || path.join(__dirname, 'models', 'qiling-model.gguf')
+  }
+
+  const brain = new QilingBrain(config)
+  const router = createRouter(brain, config)
+
+  app.use('/api', router)
+
+  // 静态文件（生产环境）
+  const distPath = path.join(__dirname, '../dist')
+  app.use(express.static(distPath))
+  app.get('*', (req, res) => {
+    if (!req.path.startsWith('/api')) {
+      res.sendFile(path.join(distPath, 'index.html'))
+    }
+  })
+
+  // 将 brain 和 config 挂载到 app 上，供后续使用
+  app.locals.brain = brain
+  app.locals.config = config
+
+  return { app, brain, config }
 }
 
-const brain = new QilingBrain(config)
-const router = createRouter(brain, config)
-
-app.use('/api', router)
-
-// 静态文件（生产环境）
-const distPath = path.join(__dirname, '../dist')
-app.use(express.static(distPath))
-app.get('*', (req, res) => {
-  if (!req.path.startsWith('/api')) {
-    res.sendFile(path.join(distPath, 'index.html'))
-  }
-})
-
+// 独立运行模式
 async function start() {
+  const { app, brain, config } = createApp()
+  
   await getDatabase(config)
   await brain.initialize()
   
@@ -56,7 +68,15 @@ async function start() {
   })
 }
 
-start().catch(e => {
-  console.error('启动失败:', e)
-  process.exit(1)
-})
+// 判断是否直接运行（非 import） - Windows 兼容
+const currentFile = `file://${process.argv[1].replace(/\\/g, '/')}`;
+const normalizedCurrent = currentFile.startsWith('file:///') ? currentFile : currentFile.replace('file://', 'file:///');
+if (import.meta.url === normalizedCurrent) {
+  start().catch(e => {
+    console.error('启动失败:', e)
+    process.exit(1)
+  })
+}
+
+// 导出 createApp 供 Firebase Functions 使用
+export default createApp
